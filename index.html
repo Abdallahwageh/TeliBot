@@ -1,0 +1,4243 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeliBot</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --success-color: #4caf50;
+            --error-color: #f44336;
+            --warning-color: #ff9800;
+            --info-color: #2196F3;
+            --cyan-color: #00bcd4;
+            --white-color: #ffffff;
+            --grey-bg: #f5f5f5;
+        }
+* {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        padding: 10px;
+        background-color: var(--grey-bg);
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    
+    .feature-card {
+        background: var(--white-color);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-title {
+        background: linear-gradient(135deg, #0088cc 0%, #003366 100%);
+        color: var(--white-color);
+        padding: 15px;
+        border-radius: 8px 8px 0 0;
+        margin: -20px -20px 20px -20px;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .steps {
+        background: var(--grey-bg);
+        padding: 20px;
+        margin: 15px 0;
+        border-right: 4px solid var(--success-color);
+        border-radius: 8px;
+    }
+
+    .problems {
+        background: #fff3e0;
+        padding: 20px;
+        margin: 15px 0;
+        border-right: 4px solid var(--error-color);
+        border-radius: 8px;
+    }
+
+    .english {
+        direction: ltr;
+        font-family: 'Consolas', monospace;
+        background: #1e1e1e;
+        color: #d4d4d4;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 6px;
+        display: block;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        position: relative;
+    }
+
+    .english.success {
+        color: var(--success-color);
+    }
+
+    .english.error {
+        color: var(--error-color);
+    }
+
+    .english.warning {
+        color: var(--warning-color);
+    }
+
+    .english.info {
+        color: var(--info-color);
+    }
+
+    .prompt {
+        background: #e3f2fd;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border-right: 4px solid var(--info-color);
+        position: relative;
+    }
+
+    .prompt::before {
+        content: '\f105';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: -25px;
+        color: var(--info-color);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+        background: var(--white-color);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 15px;
+        text-align: right;
+        border: 1px solid #eee;
+    }
+
+    th {
+        background: #f8f9fa;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .error-message {
+        color: var(--error-color);
+        font-weight: bold;
+    }
+
+    .success-message {
+        color: var(--success-color);
+        font-weight: bold;
+    }
+
+    .warning-message {
+        color: var(--warning-color);
+        font-weight: bold;
+    }
+
+    .icon {
+        display: inline-block;
+        margin-left: 10px;
+        font-size: 1.2em;
+    }
+
+    .step-number {
+        background: var(--info-color);
+        color: var(--white-color);
+        width: 25px;
+        height: 25px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-left: 10px;
+        font-size: 0.9em;
+    }
+
+    .copy-button {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        padding: 5px 10px;
+        background: rgba(255,255,255,0.1);
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .copy-button:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+        .feature-card {
+            padding: 15px;
+        }
+        
+        .feature-title {
+            padding: 12px;
+            font-size: 1.1em;
+        }
+        
+        .steps, .problems {
+            padding: 15px;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+</style>
+</head>
+<body>
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [1] Manual Registration (Sessions only) (التسجيل اليدوي رقم برقم )
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الخيار [1] من القائمة الرئيسية للتسجيل اليدوي (الجلسات فقط).
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                يقوم البرنامج بتهيئة مدير البروكسي ProxyManager باستخدام ملف البروكسي المحدد.
+                <ul>
+                    <li>إذا لم يتم العثور على أي بروكسي في الملف، يتم عرض رسالة تحذير والاستمرار بدون بروكسي.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                يطلب البرنامج إدخال رقم هاتف للتسجيل (أو الضغط على Enter للخروج).
+                <div class="prompt">
+                    <i class="fas fa-phone icon"></i>
+                    <div class="english">Enter phone number to register (or press Enter to exit):</div>
+                    أدخل رقم الهاتف للتسجيل (أو اضغط Enter للخروج)
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                إذا تم إدخال رقم هاتف، يتم قراءة بيانات API ومعلومات الجهاز من الملفات المناسبة.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                يتم إنشاء مسار جلسة فريد باستخدام رقم الهاتف ومعلومات API والجهاز.
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                يتم إنشاء الجلسة
+                <ul>
+                    <li>يتم استخدام مدير البروكسي لتدوير واختبار البروكسي إذا كانت متوفرة.</li>
+                    <li>إذا لم يتم العثور على أي بروكسي صالح، يتم إنشاء العميل بدون بروكسي.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">7</span>
+                يتم الاتصال بالرقم وإرسال رمز التحقق إلى رقم الهاتف.
+            </li>
+            <li>
+                <span class="step-number">8</span>
+                يطلب البرنامج إدخال رمز التحقق.
+                <div class="prompt">
+                    <i class="fas fa-key icon"></i>
+                    <div class="english">Enter the verification code:</div>
+                    أدخل رمز التحقق
+                </div>
+                <ul>
+                    <li>يتم التعامل مع الأخطاء المحتملة مثل رمز غير صالح أو انتهاء صلاحية الرمز.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">9</span>
+                يتم تسجيل الدخول باستخدام رقم الهاتف ورمز التحقق.
+                <ul>
+                    <li>في حالة وجود التحقق بخطوتين، يتم طلب إدخال كلمة المرور.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">10</span>
+                بعد تسجيل الدخول بنجاح، يتم عرض معلومات المستخدم.
+                <div class="success-message">
+                    <div class="english">Logged in as: First_Name Last_Name (ID: 12345678)</div>
+                    تم تسجيل الدخول باسم: الاسم الأول الاسم الأخير (المعرف: 12345678)
+                </div>
+            </li>
+            <li>
+                <span class="step-number">11</span>
+                تم التسجيل بنجاح
+            </li>
+            <li>
+                <span class="step-number">12</span>
+                يمكن للمستخدم اختيار تسجيل رقم آخر أو الخروج من وضع التسجيل اليدوي.
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-cog icon"></i>
+        [2] Auto Registration (Full setup with profile) ( التسجيل الذكي )
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الخيار [2] من القائمة الرئيسية للتسجيل التلقائي (إعداد كامل مع الملف الشخصي).
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                يقوم البرنامج بتهيئة مدير البروكسي ProxyManager باستخدام ملف البروكسي المحدد.
+                <ul>
+                    <li>إذا لم يتم العثور على أي بروكسي في الملف، يتم عرض رسالة تحذير والاستمرار بدون بروكسي.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                يتحقق البرنامج من وجود الملفات المطلوبة ويتوقف إذا كان أي منها مفقودًا أو فارغًا.
+                <ul>
+                    <li>الملفات المطلوبة هي: بيانات API، معلومات الجهاز، الأسماء الأولى، الأسماء الثانية، الحكم الإسلامية، كلمة مرور 2FA، أرقام الهواتف.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                يتم قراءة البيانات من الملفات المطلوبة (الأسماء الأولى، الأسماء الثانية، الحكم الإسلامية، كلمة مرور 2FA، أرقام الهواتف).
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                يطلب البرنامج إدخال وقت التأخير بين كل عملية تسجيل.
+                <div class="prompt">
+                    <i class="fas fa-clock icon"></i>
+                    <div class="english">Enter Delay Per Second You Want To Use:</div>
+                    أدخل وقت التأخير بالثواني الذي تريد استخدامه
+                </div>
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                لكل رقم هاتف، يتم تنفيذ الخطوات التالية:
+                <ol type="a">
+                    <li>قراءة بيانات API ومعلومات الجهاز الحالية.</li>
+                    <li>إنشاء مسار جلسة فريد باستخدام رقم الهاتف ومعلومات API والجهاز.</li>
+                    <li>يتم تهئية الاتصال بالرقم</li>
+                    <li>الاتصال بالرقم وإرسال رمز التحقق إلى رقم الهاتف.</li>
+                    <li>طلب إدخال رمز التحقق والتعامل مع الأخطاء المحتملة.</li>
+                    <li>تسجيل الدخول باستخدام رقم الهاتف ورمز التحقق.</li>
+                    <li>التعامل مع التحقق بخطوتين وطلب كلمة المرور إذا لزم الأمر.</li>
+                    <li>تحديث الملف الشخصي (الاسم الأول، الاسم الأخير، البايو، اسم المستخدم، صورة الملف الشخصي).</li>
+                    <li>تفعيل التحقق بخطوتين باستخدام كلمة المرور المحددة.</li>
+                    <li>قطع الاتصال بالرقم.</li>
+                </ol>
+            </li>
+            <li>
+                <span class="step-number">7</span>
+                الانتظار لوقت التأخير المحدد قبل الانتقال إلى الرقم التالي.
+            </li>
+            <li>
+                <span class="step-number">8</span>
+                بعد معالجة جميع الأرقام، يتم عرض رسالة إكمال العملية.
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-users icon"></i>
+        [3] Bulk Registration (Multiple accounts at once)( التسجيل الجماعي العادي )
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الخيار [3] من القائمة الرئيسية للتسجيل الجماعي (عدة حسابات دفعة واحدة).
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                يقوم البرنامج بتهيئة مدير البروكسي ProxyManager باستخدام ملف البروكسي المحدد.
+                <ul>
+                    <li>إذا لم يتم العثور على أي بروكسي في الملف، يتم عرض رسالة تحذير والاستمرار بدون بروكسي.</li>
+                </ul>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                يطلب البرنامج إدخال عدد الحسابات المراد تسجيلها.
+                <div class="prompt">
+                    <i class="fas fa-list-ol icon"></i>
+                    <div class="english">Enter number of accounts to register:</div>
+                    أدخل عدد الحسابات المراد تسجيلها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                يطلب البرنامج إدخال أرقام الهواتف مفصولة بفواصل.
+                <div class="prompt">
+                    <i class="fas fa-phone icon"></i>
+                    <div class="english">Enter phone numbers separated by commas:</div>
+                    أدخل أرقام الهواتف مفصولة بفواصل
+                </div>
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                يتم إنشاء العملاء وإرسال رموز التحقق لكل رقم هاتف باستخدام دالة create_client_with_proxy().
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                يطلب البرنامج إدخال رموز التحقق لكل حساب بالترتيب.
+                <div class="prompt">
+                    <i class="fas fa-key icon"></i>
+                    <div class="english">Enter verification codes in order, separated by commas:</div>
+                    أدخل رموز التحقق بالترتيب، مفصولة بفواصل
+                </div>
+            </li>
+            <li>
+                <span class="step-number">7</span>
+                إذا كان هناك حساب يتطلب التحقق بخطوتين، يتم طلب كلمة المرور مرة واحدة واستخدامها لجميع الحسابات.
+            </li>
+            <li>
+                <span class="step-number">8</span>
+                يتم تسجيل الدخول لكل حساب باستخدام رقم الهاتف ورمز التحقق.
+            </li>
+            <li>
+                <span class="step-number">9</span>
+                يتم قطع الاتصال بجميع العملاء بعد الانتهاء من عملية التسجيل.
+            </li>
+            <li>
+                <span class="step-number">10</span>
+                يتم عرض رسالة إكمال عملية التسجيل الجماعي.
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-file-import icon"></i>
+        [4] Auto Manual Registration (Sessions only from file)( التسجيل الجماعي بالقراءة من ملف الأرقام )
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الخيار [4] من القائمة الرئيسية للتسجيل التلقائي اليدوي (الجلسات فقط من ملف).
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                يقوم البرنامج بتهيئة مدير البروكسي ProxyManager باستخدام ملف البروكسي المحدد.
+<ul>
+<li>إذا لم يتم العثور على أي بروكسي في الملف، يتم عرض رسالة تحذير والاستمرار بدون بروكسي.</li>
+</ul>
+</li>
+<li>
+<span class="step-number">3</span>
+يتحقق البرنامج من وجود ملف "phones.txt".
+<ul>
+<li>إذا كان الملف مفقودًا أو فارغًا، يتم عرض رسالة خطأ والتوقف.</li>
+</ul>
+</li>
+<li>
+<span class="step-number">4</span>
+يتم قراءة أرقام الهواتف من ملف "phones.txt".
+</li>
+<li>
+<span class="step-number">5</span>
+يطلب البرنامج إدخال وقت التأخير بين كل عملية تسجيل.
+<div class="prompt">
+<i class="fas fa-clock icon"></i>
+<div class="english">Enter Delay Per Second You Want To Use:</div>
+أدخل وقت التأخير بالثواني الذي تريد استخدامه
+</div>
+</li>
+<li>
+<span class="step-number">6</span>
+لكل رقم هاتف، يتم تنفيذ الخطوات التالية:
+<ol type="a">
+<li>قراءة بيانات API ومعلومات الجهاز الحالية.</li>
+<li>إنشاء مسار جلسة فريد باستخدام رقم الهاتف ومعلومات API والجهاز.</li>
+<li>يتم تهئية الاتصال بالرقم</li>
+<li>الاتصال بالرقم وإرسال رمز التحقق إلى رقم الهاتف.</li>
+<li>طلب إدخال رمز التحقق والتعامل مع الأخطاء المحتملة.</li>
+<li>تسجيل الدخول باستخدام رقم الهاتف ورمز التحقق.</li>
+<li>التعامل مع التحقق بخطوتين وطلب كلمة المرور إذا لزم الأمر.</li>
+<li>عرض معلومات المستخدم بعد تسجيل الدخول بنجاح.</li>
+<li>قطع الاتصال بالرقم.</li>
+</ol>
+</li>
+<li>
+<span class="step-number">7</span>
+الانتظار لوقت التأخير المحدد قبل الانتقال إلى الرقم التالي.
+</li>
+<li>
+<span class="step-number">8</span>
+بعد معالجة جميع الأرقام، يتم عرض رسالة إكمال العملية.
+</li>
+</ol>
+</div>
+</div>
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-filter icon"></i>
+        [2] Filter all accounts
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [2] من القائمة الرئيسية لبدء عملية الفلترة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيقوم البرنامج بفحص جميع ملفات الجلسات الموجودة في مجلد "sessions" والتالية:
+            <ul>
+                <li>إزالة الحسابات المحظورة أو المعطلة</li>
+                <li>إزالة الجلسات غير المكتملة</li>
+                <li>كتابة أسماء الحسابات المشكلة في ملف "error.txt"</li>
+            </ul>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد الانتهاء من الفلترة، سيظهر لك ملخص الحالة:
+            <div class="english">
+            Filter Complete:
+            -----------------
+            Total Sessions: 100
+            Valid Sessions: 80
+            Banned Accounts: 10
+            Incomplete Sessions: 5
+            API Key Errors: 5
+            Files Removed: 20
+            </div>
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <p>لا توجد مشاكل محتملة في هذه الخاصية. البرنامج يقوم بإدارة عملية الفلترة بشكل تلقائي.</p>
+</div>
+</div>
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-trash-alt icon"></i>
+        [3] Remove specific account
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i> خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [3] من القائمة الرئيسية لبدء عملية إزالة حساب محدد.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيعرض لك البرنامج قائمة بجميع ملفات الجلسات الموجودة في مجلد "sessions". يمكنك اختيار الحساب الذي تريد إزالته.
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد اختيار الحساب المراد إزالته، سيقوم البرنامج بتسجيل الخروج من هذا الحساب وحذف ملف الجلسة الخاص به.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم إظهار رسالة تأكيد بأن الحساب تم إزالته بنجاح.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i> المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">SESSION_REVOKED</td>
+                <td>تم إلغاء الجلسة أو الحساب معطل</td>
+                <td>تأكد من صلاحية الحساب قبل المحاولة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">INTERNAL_SERVER_ERROR</td>
+                <td>خطأ داخلي في النظام</td>
+                <td>حاول مرة أخرى بعد فترة أو اتصل بالدعم الفني</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-edit icon"></i>
+        [4] Change First Name, Last Name & Bio
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [4] من القائمة الرئيسية لتغيير معلومات الحساب.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية تحديث (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية تحديث (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقرأ البرنامج معلومات الحسابات من ملف "accounts_info.txt" وسيقوم بتحديث الاسم الأول والاسم الأخير والبايو لكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            في حال رغبة المستخدم في إزالة معلومات الحساب بدلاً من التحديث، سيقوم البرنامج بتعيين اسم عشوائي والتخلص من البايو والاسم الأخير.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">SESSION_REVOKED</td>
+            <td>تم إلغاء الجلسة أو الحساب معطل</td>
+            <td>تأكد من صلاحية الحساب قبل المحاولة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-at icon"></i>
+        [5] Set Username
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [5] من القائمة الرئيسية لتعيين اسم المستخدم.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية تحديث (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية تحديث (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقرأ البرنامج أسماء المستخدمين من ملف "Usernames.txt" وسيقوم بتعيين كل اسم مستخدم لحساب مقابل له.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            في حال رغبة المستخدم في إزالة اسم المستخدم بدلاً من التحديث، سيقوم البرنامج بإزالة اسم المستخدم لكل حساب.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من تنسيق اسم المستخدم المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_OCCUPIED</td>
+            <td>اسم المستخدم مستخدم بالفعل</td>
+            <td>حاول باسم مختلف أو اترك الحقل فارغًا للإزالة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-lock icon"></i>
+        [6] Set 2 Step AF
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [6] من القائمة الرئيسية لإعداد التحقق بخطوتين.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال كلمة المرور الجديدة للتحقق بخطوتين.
+            <div class="prompt">
+                <i class="fas fa-lock icon"></i>
+                <div class="english">Enter the new 2FA Password you want to set:</div>
+                أدخل كلمة المرور الجديدة للتحقق بخطوتين
+            </div>
+            <div class="prompt">
+                <i class="fas fa-info icon"></i>
+                <div class="english">Enter a hint for the password (optional, press Enter to skip):</div>
+                أدخل تلميح لكلمة المرور (اختياري، اضغط على Enter للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بتفعيل خاصية التحقق بخطوتين لجميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">PASSWORD_HASH_INVALID</td>
+            <td>كلمة المرور الحالية غير صحيحة</td>
+            <td>تأكد من إدخال كلمة المرور الصحيحة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-unlock icon"></i>
+        [7] Remove 2 Step AF
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [8] من القائمة الرئيسية لإخفاء آخر ظهور للحسابات.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية إخفاء (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية إخفاء (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بإخفاء آخر ظهور لجميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">CHAT_ADMIN_REQUIRED</td>
+            <td>ليس لديك صلاحيات كمسؤول للقيام بهذه العملية</td>
+            <td>تأكد من كونك مسؤول على المجموعة/القناة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-eye-slash icon"></i>  
+        [8] Hide Last Seen
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [8] من القائمة الرئيسية لإخفاء آخر ظهور للحسابات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية إخفاء (0 للتخطي).
+                <div class="prompt">
+                    <i class="fas fa-clock icon"></i>  
+                    <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                    أدخل وقت التأخير بين كل عملية إخفاء (0 للتخطي)
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بإخفاء آخر ظهور لجميع الحسابات.
+            </li>  
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>  
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_ADMIN_REQUIRED</td>
+                <td>ليس لديك صلاحيات كمسؤول للقيام بهذه العملية</td>
+                <td>تأكد من كونك مسؤول على المجموعة/القناة</td>  
+            </tr>
+            <tr>  
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>  
+    </div>
+
+
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-phone-alt icon"></i>
+        [9] Hide Phone Numbers
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [9] من القائمة الرئيسية لإخفاء أرقام الهواتف للحسابات.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية إخفاء (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية إخفاء (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بإخفاء أرقام الهواتف لجميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">CHAT_ADMIN_REQUIRED</td>
+            <td>ليس لديك صلاحيات كمسؤول للقيام بهذه العملية</td>
+            <td>تأكد من كونك مسؤول على المجموعة/القناة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-eye-slash icon"></i>
+        [10] Hide Last Seen & Numbers Both
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [10] من القائمة الرئيسية لإخفاء آخر ظهور وأرقام الهواتف للحسابات.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية إخفاء (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية إخفاء (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بإخفاء آخر ظهور وأرقام الهواتف لجميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">CHAT_ADMIN_REQUIRED</td>
+            <td>ليس لديك صلاحيات كمسؤول للقيام بهذه العملية</td>
+            <td>تأكد من كونك مسؤول على المجموعة/القناة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-trash-alt icon"></i>
+        [11] Delete All chats and Groups
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [11] من القائمة الرئيسية لحذف جميع المحادثات والمجموعات.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيقوم البرنامج أولاً بالتحقق من صلاحية الجلسات الموجودة في مجلد "sessions".
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بالخروج من جميع المجموعات والقنوات التي ينتمي إليها الحساب، وحذف جميع الرسائل والمحادثات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            في النهاية، سيتم عرض ملخص بالنتائج النهائية للعملية.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">CHAT_ADMIN_REQUIRED</td>
+            <td>ليس لديك صلاحيات كمسؤول للقيام بهذه العملية</td>
+            <td>تأكد من كونك مسؤول على المجموعة/القناة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-envelope-open-text icon"></i>
+        [12] Remove Email verification with 2AF
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [12] من القائمة الرئيسية لإزالة خاصية التحقق بالبريد الإلكتروني مع التحقق بخطوتين.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال كلمة المرور المشتركة للتحقق بخطوتين.
+            <div class="prompt">
+                <i class="fas fa-lock icon"></i>
+                <div class="english">Enter the 2 Step Password to remove from all accounts:</div>
+                أدخل كلمة المرور المشتركة للتحقق بخطوتين
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بإزالة خاصية التحقق بالبريد الإلكتروني من جميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">PASSWORD_HASH_INVALID</td>
+            <td>كلمة المرور الحالية غير صحيحة</td>
+            <td>تأكد من إدخال كلمة المرور الصحيحة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">PASSWORD_MISSING</td>
+            <td>لا يوجد تحقق بخطوتين مفعل</td>
+            <td>لا حاجة للإزالة، انتقل للخطوة التالية</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-image icon"></i>
+        [13] Set Profile Pic
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [13] من القائمة الرئيسية لتعيين صورة الملف الشخصي.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية تعيين (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية تعيين (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بتعيين صورة عشوائية من مجلد "changing/pic" لكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-image icon"></i>
+        [14] Remove Profile Pic
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [14] من القائمة الرئيسية لإزالة صورة الملف الشخصي.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية إزالة (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية إزالة (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بإزالة جميع صور الملف الشخصي الموجودة للحسابات.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة إنهاء العملية بنجاح عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-sign-out-alt icon"></i>
+        [15] Termination of other sessions
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [15] من القائمة الرئيسية لإنهاء الجلسات الأخرى المفتوحة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيقوم البرنامج بالتحقق من الجلسات الموجودة وسيقوم بإنهاء أي جلسات أخرى مفتوحة بخلاف الجلسة الحالية.
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            سيتم حفظ المعلومات الخاصة بالجلسات المنتهية في ملف "other sessions.txt".
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            في حال وجود أخطاء أو مشاكل في إنهاء الجلسات، سيتم حفظها في الملف المذكور أيضًا.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+        <tr>
+            <td class="error-message english">API_KEY_REQUIRED</td>
+            <td>مفتاح API مطلوب للقيام بهذه العملية</td>
+            <td>تأكد من وجود مفتاح API صالح</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-code icon"></i>
+        [16] OTP Viewer
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [16] من القائمة الرئيسية لعرض رموز التحقق (OTP) لجميع الحسابات.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيعرض لك البرنامج قائمة بجميع الحسابات المسجلة.
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد اختيار حساب معين، سيقوم البرنامج بعرض رمز التحقق (OTP) الخاص به.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            يمكنك اختيار الخروج من الحساب بعد عرض الرمز.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">CHAT_NOT_MODIFIED</td>
+            <td>لا يوجد رسائل جديدة لعرض رمز التحقق</td>
+            <td>انتقل إلى الحساب التالي</td>
+        </tr>
+        <tr>
+            <td class="error-message english">SESSION_REVOKED</td>
+            <td>تم إلغاء الجلسة أو الحساب معطل</td>
+            <td>تأكد من صلاحية الحساب قبل المحاولة</td>
+        </tr>
+    </table>
+</div>
+</div>
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-ban icon"></i>
+        [17] Limit Remover
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i> خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [17] من القائمة الرئيسية لإزالة قيود الحساب.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيتصل البرنامج بـ "spambot" للتحقق من حالة الحساب وإزالة القيود إن وجدت.
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيعرض لك البرنامج رسائل "spambot" والإجراءات التي قام بها لإزالة القيود.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i> المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-clone icon"></i>
+        [18] Account Cloner
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [18] من القائمة الرئيسية لنسخ ملف تعريف الحساب.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية نسخ (0 للتخطي).
+            <div class="prompt">
+                <i class="fas fa-clock icon"></i>
+                <div class="english">Enter Delay Time Per Request (0 For None):</div>
+                أدخل وقت التأخير بين كل عملية نسخ (0 للتخطي)
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقرأ البرنامج ملف "clone.txt" الذي يحتوي على معلومات الحسابات المراد نسخها.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيقوم البرنامج بتحديث الاسم والبايو والصورة الشخصية لكل حساب حسب المعلومات المتوفرة.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من تنسيق اسم المستخدم المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_OCCUPIED</td>
+            <td>اسم المستخدم مستخدم بالفعل</td>
+            <td>حاول باسم مختلف</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-sign-out-alt icon"></i>
+        [19] Logout from account
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [19] من القائمة الرئيسية للخروج من حساب.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيعرض لك البرنامج قائمة بالحسابات المسجلة، اختر الحساب الذي تريد الخروج منه.
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            سيقوم البرنامج بتسجيل الخروج من هذا الحساب وحذف ملف الجلسة الخاص به.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض رسالة تأكيد بأن الحساب تم إزالته بنجاح.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">SESSION_REVOKED</td>
+            <td>تم إلغاء الجلسة أو الحساب معطل</td>
+            <td>تأكد من صلاحية الحساب قبل المحاولة</td>
+        </tr>
+        <tr>
+            <td class="error-message english">INTERNAL_SERVER_ERROR</td>
+            <td>خطأ داخلي في النظام</td>
+            <td>حاول مرة أخرى بعد فترة أو اتصل بالدعم الفني</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [20] Public group Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [20] من القائمة الرئيسية لبدء عملية سحب أعضاء المجموعات العامة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب أعضائها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group username or link to scrape members:</div>
+                أدخل اسم المستخدم أو رابط المجموعة المراد سحب أعضائها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [21] Private group Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [21] من القائمة الرئيسية لبدء عملية سحب أعضاء المجموعات الخاصة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب أعضائها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group invite link to scrape members:</div>
+                أدخل رابط الدعوة للمجموعة المراد سحب أعضائها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            سيطلب منك البرنامج إدخال عدد الرسائل السابقة التي تريد سحب المعلومات منها.
+            <div class="prompt">
+                <i class="fas fa-history icon"></i>
+                <div class="english">Enter how many messages you want to scrape to get hidden members:</div>
+                أدخل عدد الرسائل السابقة التي تريد سحب المعلومات منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">INVITE_HASH_INVALID</td>
+            <td>رابط الدعوة غير صالح</td>
+            <td>تأكد من صحة رابط الدعوة المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [22] Hidden Members Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [22] من القائمة الرئيسية لبدء عملية سحب الأعضاء المخفيين.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء المخفيين منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group username or link to scrape hidden members:</div>
+                أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء المخفيين منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            سيطلب منك البرنامج إدخال عدد الرسائل السابقة التي تريد سحب المعلومات منها.
+            <div class="prompt">
+                <i class="fas fa-history icon"></i>
+                <div class="english">Enter how many messages you want to scrape to get hidden members:</div>
+                أدخل عدد الرسائل السابقة التي تريد سحب المعلومات منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء المخفيين (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [23] Private Hidden Members Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [23] من القائمة الرئيسية لبدء عملية سحب الأعضاء المخفيين في المجموعات الخاصة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء المخفيين منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group invite link to scrape hidden members:</div>
+                أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء المخفيين منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            سيطلب منك البرنامج إدخال عدد الرسائل السابقة التي تريد سحب المعلومات منها.
+            <div class="prompt">
+                <i class="fas fa-history icon"></i>
+                <div class="english">Enter how many messages you want to scrape to get hidden members:</div>
+                أدخل عدد الرسائل السابقة التي تريد سحب المعلومات منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء المخفيين (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">5</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">INVITE_HASH_INVALID</td>
+            <td>رابط الدعوة غير صالح</td>
+            <td>تأكد من صحة رابط الدعوة المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [24] Daily Filter Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [24] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال اليوم.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group username or link to scrape members:</div>
+                أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال اليوم الحالي أو اليوم السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [25] Private Daily Filter Scraper
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i> خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [25] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال اليوم في المجموعات الخاصة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter group invite link to scrape members:</div>
+                    أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء منها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال اليوم الحالي أو اليوم السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i> المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">INVITE_HASH_INVALID</td>
+                <td>رابط الدعوة غير صالح</td>
+                <td>تأكد من صحة رابط الدعوة المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [26] Weekly Filter Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [26] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال الأسبوع.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group username or link to scrape members:</div>
+                أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال الأسبوع الحالي أو الأسبوع السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [27] Private Weekly Filter Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [27] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال الأسبوع في المجموعات الخاصة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group invite link to scrape members:</div>
+                أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال الأسبوع الحالي أو الأسبوع السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">INVITE_HASH_INVALID</td>
+            <td>رابط الدعوة غير صالح</td>
+            <td>تأكد من صحة رابط الدعوة المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [28] Monthly Filter Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [28] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال الشهر.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group username or link to scrape members:</div>
+                أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال الشهر الحالي أو الشهر السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">USERNAME_INVALID</td>
+            <td>اسم المستخدم غير صالح</td>
+            <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [29] Private Monthly Filter Scraper
+    </h2>
+<div class="steps">
+    <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+    <ol>
+        <li>
+            <span class="step-number">1</span>
+            اختر الرقم [29] من القائمة الرئيسية لبدء عملية سحب الأعضاء النشطين خلال الشهر في المجموعات الخاصة.
+        </li>
+        <li>
+            <span class="step-number">2</span>
+            سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء منها.
+            <div class="prompt">
+                <i class="fas fa-link icon"></i>
+                <div class="english">Enter group invite link to scrape members:</div>
+                أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء منها
+            </div>
+        </li>
+        <li>
+            <span class="step-number">3</span>
+            بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء النشطين خلال الشهر الحالي أو الشهر السابق (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+        </li>
+        <li>
+            <span class="step-number">4</span>
+            سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+        </li>
+    </ol>
+</div>
+
+<div class="problems">
+    <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+    <table>
+        <tr>
+            <th><i class="fas fa-bug"></i> Error Message</th>
+            <th><i class="fas fa-info-circle"></i> السبب</th>
+            <th><i class="fas fa-tools"></i> الحل</th>
+        </tr>
+        <tr>
+            <td class="error-message english">INVITE_HASH_INVALID</td>
+            <td>رابط الدعوة غير صالح</td>
+            <td>تأكد من صحة رابط الدعوة المدخل</td>
+        </tr>
+        <tr>
+            <td class="error-message english">FLOOD_WAIT_X</td>
+            <td>عدد كبير من المحاولات في وقت قصير</td>
+            <td>انتظر X ثواني قبل المحاولة التالية</td>
+        </tr>
+    </table>
+</div>
+
+
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-clock icon"></i>
+        [30] Inactive Filter Scraper
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [30] من القائمة الرئيسية لبدء عملية سحب الأعضاء غير النشطين.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to scrape members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء غير النشطين خلال الشهر الماضي (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-clock icon"></i>
+        [31] Private Inactive Filter Scraper
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [31] من القائمة الرئيسية لبدء عملية سحب الأعضاء غير النشطين في المجموعات الخاصة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter group invite link to scrape members:</div>
+                    أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء منها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء غير النشطين خلال الشهر الماضي (الاسم الأول والاسم الأخير والمعرف والاسم المستعار وآخر ظهور) وحفظها في ملف خاص بكل حساب.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">INVITE_HASH_INVALID</td>
+                <td>رابط الدعوة غير صالح</td>
+                <td>تأكد من صحة رابط الدعوة المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-signal icon"></i> 
+        [32] Online Filter Scraper
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [32] من القائمة الرئيسية لبدء عملية سحب الأعضاء المتواجدين حاليًا.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to scrape members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء المتواجدين حاليًا (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.  
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-signal icon"></i>
+        [33] Private Online Filter Scraper 
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [33] من القائمة الرئيسية لبدء عملية سحب الأعضاء المتواجدين حاليًا في المجموعات الخاصة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter group invite link to scrape members:</div>
+                    أدخل رابط الدعوة للمجموعة المراد سحب الأعضاء منها  
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء المتواجدين حاليًا (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.   
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">INVITE_HASH_INVALID</td>
+                <td>رابط الدعوة غير صالح</td>
+                <td>تأكد من صحة رابط الدعوة المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-star icon"></i>
+        [34] Premium Members Scraper
+    </h2>  
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>  
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [34] من القائمة الرئيسية لبدء عملية سحب الأعضاء المشتركين بالميزات المدفوعة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to scrape members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد سحب الأعضاء منها
+                </div>
+            </li>  
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب معلومات الأعضاء المشتركين بالميزات المدفوعة (الاسم الأول والاسم الأخير والمعرف والاسم المستعار) وحفظها في ملف خاص بكل حساب.
+            </li>
+            <li>  
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>  
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>  
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>  
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>  
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-users icon"></i>
+        [35] Scrap my Groups
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [35] من القائمة الرئيسية لبدء عملية سحب أعضاء المجموعات التي تنتمي إليها.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيعرض لك البرنامج قائمة بالحسابات المسجلة، اختر الحساب الذي تريد استخدامه لسحب المعلومات.
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة المجموعات والقنوات التي ينتمي إليها هذا الحساب.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيطلب منك اختيار إما سحب أعضاء المجموعات أو سحب الأعضاء المخفيين.
+                <div class="prompt">
+                    <i class="fas fa-question-circle icon"></i>
+                    <div class="english">Choose an option:
+1. Scrape group members
+2. Scrape hidden members</div>
+                    اختر أحد الخيارات:
+                    <ol>
+                        <li>سحب أعضاء المجموعات</li>
+                        <li>سحب الأعضاء المخفيين</li>
+                    </ol>
+                </div>
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بعدد الأعضاء المسحوبين عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_FORBIDDEN</td>
+                <td>ليس لديك صلاحية الدخول إلى هذه المجموعة</td>
+                <td>تأكد من صلاحيات الحساب المستخدم</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [36] Public group Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [36] من القائمة الرئيسية لبدء عملية إضافة أعضاء إلى مجموعة عامة.  
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج معلومات الأعضاء من ملف "Scraping/*.txt" وسيقوم بإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [37] Private group Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [37] من القائمة الرئيسية لبدء عملية إضافة أعضاء إلى مجموعة خاصة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رابط الدعوة للمجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter group invite link to add members:</div>
+                    أدخل رابط الدعوة للمجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج معلومات الأعضاء من ملف "Scraping/*.txt" وسيقوم بإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">INVITE_HASH_INVALID</td>
+                <td>رابط الدعوة غير صالح</td>
+                <td>تأكد من صحة رابط الدعوة المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [38] Direct Visible Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [38] من القائمة الرئيسية لبدء عملية إضافة أعضاء مرئيين إلى المجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء المرئيين في المجموعة وإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [39] Direct Hidden Member Adder
+    </h2>
+    <div class="steps">  
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [39] من القائمة الرئيسية لبدء عملية إضافة الأعضاء المخفيين إلى المجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>  
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء المخفيين في المجموعة وإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [40] Direct Daily Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [40] من القائمة الرئيسية لبدء عملية إضافة الأعضاء النشطين خلال اليوم إلى المجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء النشطين خلال اليوم الحالي أو اليوم السابق وإضافتهم إلى المجموعة المحددة.  
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">  
+        <i class="fas fa-user-plus icon"></i>
+        [41] Direct Weekly Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [41] من القائمة الرئيسية لبدء عملية إضافة الأعضاء النشطين خلال الأسبوع إلى المجموعات.  
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء النشطين خلال الأسبوع الحالي أو الأسبوع السابق وإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.  
+            </li>
+        </ol>
+    </div>
+    <div class="problems">  
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>  
+        [42] Direct Monthly Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [42] من القائمة الرئيسية لبدء عملية إضافة الأعضاء النشطين خلال الشهر إلى المجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها  
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء النشطين خلال الشهر الحالي أو الشهر السابق وإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>  
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [43] Direct Online Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [43] من القائمة الرئيسية لبدء عملية إضافة الأعضاء المتواجدين حاليًا إلى المجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to add members:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء المتواجدين حاليًا وإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [44] Direct Non Active Member Adder
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+اختر الرقم [44] من القائمة الرئيسية لبدء عملية إضافة الأعضاء غير النشطين إلى المجموعات.
+</li>
+<li>
+<span class="step-number">2</span>
+سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها.
+<div class="prompt">
+<i class="fas fa-user icon"></i>
+<div class="english">Enter group username or link to add members:</div>
+أدخل اسم المستخدم أو رابط المجموعة المراد إضافة الأعضاء إليها
+</div>
+</li>
+<li>
+<span class="step-number">3</span>
+بعد ذلك، سيقوم البرنامج بسحب قائمة الأعضاء غير النشطين خلال الشهر الماضي وإضافتهم إلى المجموعة المحددة.
+</li>
+<li>
+<span class="step-number">4</span>
+سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+</li>
+</ol>
+</div>
+<div class="problems">
+<h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+<table>
+<tr>
+<th><i class="fas fa-bug"></i> Error Message</th>
+<th><i class="fas fa-info-circle"></i> السبب</th>
+<th><i class="fas fa-tools"></i> الحل</th>
+</tr>
+<tr>
+<td class="error-message english">USERNAME_INVALID</td>
+<td>اسم المستخدم غير صالح</td>
+<td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+</tr>
+<tr>
+<td class="error-message english">USER_RESTRICTED</td>
+<td>تم حظر المستخدم من المجموعة</td>
+<td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+</tr>
+<tr>
+<td class="error-message english">FLOOD_WAIT_X</td>
+<td>عدد كبير من المحاولات في وقت قصير</td>
+<td>انتظر X ثواني قبل المحاولة التالية</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>
+        [45] Add members by Usernames file
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [45] من القائمة الرئيسية لبدء عملية إضافة الأعضاء من ملف أسماء المستخدمين.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user-plus icon"></i>
+                    <div class="english">Enter group name to add members:</div>
+                    أدخل اسم المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج أسماء المستخدمين من ملف "Adding/usernames.txt" وسيقوم بإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_ID_INVALID</td>
+                <td>معرف المستخدم غير صالح</td>
+                <td>تأكد من صحة معرف المستخدم المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-user-plus icon"></i>  
+        [46] Add members by Phones file
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [46] من القائمة الرئيسية لبدء عملية إضافة الأعضاء من ملف أرقام الهواتف.  
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المجموعة المراد إضافة الأعضاء إليها.
+                <div class="prompt">
+                    <i class="fas fa-user-plus icon"></i>
+                    <div class="english">Enter group name to add members:</div>
+                    أدخل اسم المجموعة المراد إضافة الأعضاء إليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج أرقام الهواتف من ملف "Adding/Mobile Phones.txt" وسيقوم بإضافتهم إلى المجموعة المحددة.
+            </li>
+            <li>  
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الأعضاء الذين تمت إضافتهم عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">PHONE_NUMBER_INVALID</td>  
+                <td>رقم الهاتف غير صالح</td>
+                <td>تأكد من صحة رقم الهاتف المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">USER_RESTRICTED</td>
+                <td>تم حظر المستخدم من المجموعة</td>
+                <td>قم بإزالة الحظر أو استخدم حساب آخر</td>  
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-envelope icon"></i>
+        [47] Sending Messages  
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [47] من القائمة الرئيسية لبدء عملية إرسال الرسائل.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال الرسالة النصية التي تريد إرسالها.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>
+                    <div class="english">Enter the message text to send:</div>
+                    أدخل نص الرسالة المراد إرسالها
+                </div>  
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج معلومات الأعضاء من ملف "Scraping/*.txt" وسيقوم بإرسال الرسالة إلى كل عضو.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الرسائل التي تم إرسالها عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>  
+                <td class="error-message english">PRIVACY_RESTRICTED</td>
+                <td>الحساب له قيود على الخصوصية</td>
+                <td>حاول مع حساب آخر أو حساب مشترك في المجموعة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>  
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-comments icon"></i>
+        [48] Direct Messages to Group Members
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [48] من القائمة الرئيسية لبدء عملية إرسال الرسائل إلى أعضاء المجموعة.
+            </li>
+            <li>  
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة التي تريد إرسال الرسائل إليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter group username or link to send messages:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المراد إرسال الرسائل إليها  
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>  
+                بعد ذلك، سيطلب منك البرنامج إدخال الرسالة النصية التي تريد إرسالها.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>  
+                    <div class="english">Enter the message text to send:</div>
+                    أدخل نص الرسالة المراد إرسالها
+                </div>
+            </li>
+            <li>  
+                <span class="step-number">4</span>
+                سيقوم البرنامج بإرسال الرسالة إلى جميع أعضاء المجموعة المحددة.  
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بعدد الرسائل التي تم إرسالها عند الانتهاء.
+            </li>  
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>  
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>  
+                <th><i class="fas fa-tools"></i> الحل</th></tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_WRITE_FORBIDDEN</td>
+                <td>ليس لديك صلاحية إرسال رسائل للمجموعة</td>
+                <td>تأكد من صلاحياتك كمشرف على المجموعة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-envelope icon"></i>
+        [49] Sending Messages by Usernames
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [49] من القائمة الرئيسية لبدء عملية إرسال الرسائل من ملف أسماء المستخدمين.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال الرسالة النصية التي تريد إرسالها.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>
+                    <div class="english">Enter the message text to send:</div>
+                    أدخل نص الرسالة المراد إرسالها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج أسماء المستخدمين من ملف "Adding/usernames.txt" وسيقوم بإرسال الرسالة إلى كل منهم.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الرسائل التي تم إرسالها عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">PRIVACY_RESTRICTED</td>
+                <td>الحساب له قيود على الخصوصية</td>
+                <td>حاول مع حساب آخر أو حساب مشترك في المجموعة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-envelope icon"></i>
+        [50] Sending Messages by Phones file
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [50] من القائمة الرئيسية لبدء عملية إرسال الرسائل من ملف أرقام الهواتف.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال الرسالة النصية التي تريد إرسالها.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>
+                    <div class="english">Enter the message text to send:</div>
+                    أدخل نص الرسالة المراد إرسالها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج أرقام الهواتف من ملف "Adding/Mobile Phones.txt" وسيقوم بإرسال الرسالة إلى كل رقم.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الرسائل التي تم إرسالها عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">PHONE_NUMBER_INVALID</td>
+                <td>رقم الهاتف غير صالح</td>
+                <td>تأكد من صحة رقم الهاتف المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">PRIVACY_RESTRICTED</td>
+                <td>الحساب له قيود على الخصوصية</td>
+                <td>حاول مع حساب آخر أو حساب مشترك في المجموعة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-comments icon"></i>
+        [51] Sending Messages to Groups
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [51] من القائمة الرئيسية لبدء عملية إرسال الرسائل إلى مجموعات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال الرسالة النصية التي تريد إرسالها.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>
+                    <div class="english">Enter the message text to send:</div>
+                    أدخل نص الرسالة المراد إرسالها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقرأ البرنامج روابط المجموعات من ملف "sending/groups links.txt" وسيقوم بإرسال الرسالة إلى كل مجموعة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بعدد الرسائل التي تم إرسالها عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_WRITE_FORBIDDEN</td>
+                <td>ليس لديك صلاحية إرسال رسائل للمجموعة</td>
+                <td>تأكد من صلاحياتك كمشرف على المجموعة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-chart-line icon"></i>  
+        [52] Views Increaser
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [52] من القائمة الرئيسية لبدء عملية زيادة عدد المشاهدات.
+            </li>
+            <li>
+                <span class="step-number">2</span>  
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة/القناة التي تريد زيادة المشاهدات عليها.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter username or link of the group/channel to increase views:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة/القناة المراد زيادة المشاهدات عليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال معرف الرسالة التي تريد زيادة عدد مشاهداتها.
+                <div class="prompt">
+                    <i class="fas fa-hashtag icon"></i>
+                    <div class="english">Enter message ID to increase views:</div>
+                    أدخل معرف الرسالة المراد زيادة عدد مشاهداتها   
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بزيادة عدد المشاهدات على الرسالة المحددة.
+            </li>
+            <li>  
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">  
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">MESSAGE_ID_INVALID</td>
+                <td>معرف الرسالة غير صالح</td>  
+                <td>تأكد من إدخال معرف الرسالة الصحيح</td>
+            </tr>
+            <tr>  
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card"> 
+    <h2 class="feature-title">
+        <i class="fas fa-copy icon"></i>
+        [53] Group Chat Cloner
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>  
+                <span class="step-number">1</span>
+                اختر الرقم [53] من القائمة الرئيسية لبدء عملية نسخ محتوى المحادثات من مجموعة إلى أخرى.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة المصدر التي تريد نسخ محتواها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter source group username or link:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة المصدر
+                </div>  
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة الهدف التي تريد نسخ المحتوى إليها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+<div class="english">Enter target group username or link:</div>
+أدخل اسم المستخدم أو رابط المجموعة الهدف
+</div>
+</li>
+<li>
+<span class="step-number">4</span>
+سيقوم البرنامج بنسخ الرسائل من المجموعة المصدر إلى المجموعة الهدف بالترتيب الزمني.
+</li>
+<li>
+<span class="step-number">5</span>
+سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+</li>
+</ol>
+</div>
+<div class="problems">
+<h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+<table>
+<tr>
+<th><i class="fas fa-bug"></i> Error Message</th>
+<th><i class="fas fa-info-circle"></i> السبب</th>
+<th><i class="fas fa-tools"></i> الحل</th>
+</tr>
+<tr>
+<td class="error-message english">USERNAME_INVALID</td>
+<td>اسم المستخدم غير صالح</td>
+<td>تأكد من إدخال اسم المستخدم بشكل صحيح</td>
+</tr>
+<tr>
+<td class="error-message english">FLOOD_WAIT_X</td>
+<td>عدد كبير من المحاولات في وقت قصير</td>
+<td>انتظر X ثواني قبل المحاولة التالية</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-thumbs-up icon"></i>
+        [54] Reaction Increaser
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [54] من القائمة الرئيسية لبدء عملية زيادة عدد الردود على رسالة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة/القناة التي تريد زيادة الردود عليها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter username or link of the group/channel to increase reactions:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة/القناة المراد زيادة الردود عليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال معرف الرسالة التي تريد إضافة الردود عليها.
+                <div class="prompt">
+                    <i class="fas fa-hashtag icon"></i>
+                    <div class="english">Enter message ID to add reactions:</div>
+                    أدخل معرف الرسالة المراد إضافة الردود عليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيطلب منك البرنامج إدخال الردود (الإيموجي) التي تريد إضافتها.
+                <div class="prompt">
+                    <i class="fas fa-smile icon"></i>
+                    <div class="english">Enter reactions (emojis) separated by spaces:</div>
+                    أدخل الردود (الإيموجي) مفصولة بمسافات
+                </div>
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيقوم البرنامج بإضافة الردود على الرسالة المحددة.
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">MESSAGE_ID_INVALID</td>
+                <td>معرف الرسالة غير صالح</td>
+                <td>تأكد من إدخال معرف الرسالة الصحيح</td>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_PRIVATE</td>
+                <td>المجموعة/القناة خاصة ولا يمكن الوصول إليها</td>
+                <td>تأكد من الانضمام إلى المجموعة/القناة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_NOT_FOUND</td>
+                <td>المجموعة/القناة غير موجودة</td>
+                <td>تأكد من صحة اسم المستخدم أو الرابط</td>  
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-share-alt icon"></i>
+        [55] Shares Increaser
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [55] من القائمة الرئيسية لبدء عملية زيادة عدد المشاركات لرسالة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة/القناة التي تريد زيادة المشاركات عليها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter username or link of the group/channel to increase shares:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة/القناة المراد زيادة المشاركات عليها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال معرف الرسالة التي تريد زيادة عدد المشاركات عليها.
+                <div class="prompt">
+                    <i class="fas fa-hashtag icon"></i>
+                    <div class="english">Enter message ID to increase shares:</div>
+                    أدخل معرف الرسالة المراد زيادة عدد المشاركات عليها
+                </div>  
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بمشاركة الرسالة المحددة.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>  
+            </tr>
+            <tr>
+                <td class="error-message english">MESSAGE_ID_INVALID</td>
+                <td>معرف الرسالة غير صالح</td>
+                <td>تأكد من إدخال معرف الرسالة الصحيح</td>
+            </tr>
+            <tr>  
+                <td class="error-message english">CHAT_PRIVATE</td>
+                <td>المجموعة/القناة خاصة ولا يمكن الوصول إليها</td>
+                <td>تأكد من الانضمام إلى المجموعة/القناة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_NOT_FOUND</td>
+                <td>المجموعة/القناة غير موجودة</td>
+                <td>تأكد من صحة اسم المستخدم أو الرابط</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>  
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-sign-in-alt icon"></i>
+        [56] Join channel/group
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>  
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [56] من القائمة الرئيسية لبدء عملية الانضمام إلى مجموعة أو قناة.  
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو رابط المجموعة/القناة التي تريد الانضمام إليها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter username or link of the group/channel to join:</div>
+                    أدخل اسم المستخدم أو رابط المجموعة/القناة المراد الانضمام إليها  
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيقوم البرنامج بالانضمام إلى المجموعة/القناة المحددة.
+            </li>
+            <li>  
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>  
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">INVITE_HASH_INVALID</td>
+                <td>رابط الدعوة غير صالح</td>  
+                <td>تأكد من صحة رابط الدعوة المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_PRIVATE</td>
+                <td>المجموعة/القناة خاصة ولا يمكن الوصول إليها</td>
+                <td>تأكد من الحصول على رابط الدعوة الصحيح</td>
+            </tr>
+            <tr>  
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-sign-out-alt icon"></i>
+        [57] Leave channel/group
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>  
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [57] من القائمة الرئيسية لبدء عملية الخروج من مجموعة أو قناة.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو معرف المجموعة/القناة التي تريد الخروج منها.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter username or ID of the group/channel to leave:</div>
+                    أدخل اسم المستخدم أو معرف المجموعة/القناة المراد الخروج منها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+سيقوم البرنامج بالخروج من المجموعة/القناة المحددة.
+</li>
+<li>
+<span class="step-number">4</span>
+سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+</li>
+</ol>
+</div>
+<div class="problems">
+<h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+<table>
+<tr>
+<th><i class="fas fa-bug"></i> Error Message</th>
+<th><i class="fas fa-info-circle"></i> السبب</th>
+<th><i class="fas fa-tools"></i> الحل</th>
+</tr>
+<tr>
+<td class="error-message english">USER_NOT_PARTICIPANT</td>
+<td>لست عضوًا في هذه المجموعة/القناة</td>
+<td>تأكد من الانضمام إلى المجموعة/القناة أولاً</td>
+</tr>
+<tr>
+<td class="error-message english">CHAT_NOT_FOUND</td>
+<td>المجموعة/القناة غير موجودة</td>
+<td>تأكد من صحة اسم المستخدم أو المعرف</td>
+</tr>
+<tr>
+<td class="error-message english">FLOOD_WAIT_X</td>
+<td>عدد كبير من المحاولات في وقت قصير</td>
+<td>انتظر X ثواني قبل المحاولة التالية</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-users icon"></i>
+        [58] Auto Group Creator
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [58] من القائمة الرئيسية لبدء عملية إنشاء مجموعات أوتوماتيكيًا.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال عدد المجموعات التي تريد إنشاءها لكل حساب.
+                <div class="prompt">
+                    <i class="fas fa-hashtag icon"></i>
+                    <div class="english">Enter number of groups per account:</div>
+                    أدخل عدد المجموعات لكل حساب
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيقوم البرنامج بإنشاء المجموعات مع أسماء عشوائية وإعداد وصف لكل منها.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بنتائج عملية إنشاء المجموعات عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">USERNAME_INVALID</td>
+                <td>اسم المستخدم غير صالح</td>
+                <td>تأكد من تنسيق اسم المستخدم المدخل</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-flag icon"></i>  
+        [59] Report
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [59] من القائمة الرئيسية لبدء عملية الإبلاغ عن محتوى.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج اختيار نوع الإبلاغ من قائمة الخيارات المتاحة.
+                <div class="prompt">
+                    <i class="fas fa-list icon"></i>
+                    <div class="english">Choose report type:</div>
+                    اختر نوع الإبلاغ:
+                    <ul>
+                        <li>Spam</li>
+                        <li>Violence</li>
+                        <li>Pornography</li>
+                        <li>Child Abuse</li>
+                        <li>Copyright</li>
+                        <li>Other</li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال اسم المستخدم أو الرابط المراد الإبلاغ عنه.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter username or link to report (e.g., @username):</div>
+                    أدخل اسم المستخدم أو الرابط المراد الإبلاغ عنه (مثل @username)
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيطلب منك البرنامج إدخال رسالة الإبلاغ.
+                <div class="prompt">
+                    <i class="fas fa-pen icon"></i>
+                    <div class="english">Enter report message:</div>
+                    أدخل رسالة الإبلاغ
+                </div>
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيقوم البرنامج بإرسال الإبلاغ باستخدام جميع الحسابات المسجلة.
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">REPORT_FLOOD</td>
+                <td>تم الإبلاغ عن هذا المحتوى مرارًا وتكرارًا</td>
+                <td>انتظر قليلاً قبل المحاولة مرة أخرى</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-filter icon"></i>  
+        [60] Filter Numbers
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [60] من القائمة الرئيسية لبدء عملية فلترة الأرقام.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال وقت التأخير بين كل عملية فلترة.
+                <div class="prompt">
+                    <i class="fas fa-clock icon"></i>  
+                    <div class="english">Enter delay time between checks (in seconds):</div>
+                    أدخل وقت التأخير بين كل عملية فلترة (بالثواني)
+                </div>
+            </li>
+            <li>  
+                <span class="step-number">3</span>
+                سيقوم البرنامج بقراءة الأرقام من ملف "numbers.txt" وفحص صلاحيتها.
+            </li>
+            <li>
+                <span class="step-number">4</span>  
+                سيتم حفظ الأرقام الصالحة في ملف "valid_numbers.txt" والأرقام غير الصالحة في ملف "invalid_numbers.txt".
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بنتائج عملية الفلترة عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        لا توجد مشاكل محتملة في هذه الخاصية. البرنامج يقوم بالفلترة بشكل تلقائي.
+    </div>  
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-poll icon"></i>
+        [61] Poll Votes  
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [61] من القائمة الرئيسية لبدء عملية التصويت في استفتاء.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو معرف المجموعة التي يوجد بها الاستفتاء.
+                <div class="prompt">
+                    <i class="fas fa-user icon"></i>
+                    <div class="english">Enter username or ID of the group with the poll:</div>
+                    أدخل اسم المستخدم أو معرف المجموعة التي يوجد بها الاستفتاء
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                بعد ذلك، سيطلب منك البرنامج إدخال معرف الرسالة التي تحتوي على الاستفتاء.
+                <div class="prompt">
+                    <i class="fas fa-hashtag icon"></i>
+                    <div class="english">Enter message ID of the poll:</div>
+                    أدخل معرف الرسالة التي تحتوي على الاستفتاء
+                </div>  
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيطلب منك البرنامج إدخال رقم الخيار الذي تريد التصويت له.
+                <div class="prompt">
+                    <i class="fas fa-list-ol icon"></i>
+                    <div class="english">Enter option number to vote (0, 1, 2...):</div>
+                    أدخل رقم الخيار للتصويت (0، 1، 2...)  
+                </div>
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيقوم البرنامج بالتصويت على الاستفتاء باستخدام جميع الحسابات المسجلة.
+            </li>
+            <li>  
+                <span class="step-number">6</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">MESSAGE_ID_INVALID</td>
+                <td>معرف الرسالة غير صالح</td>
+                <td>تأكد من إدخال معرف الرسالة الصحيح</td>  
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_WRITE_FORBIDDEN</td>
+                <td>ليس لديك صلاحية التصويت في هذا الاستفتاء</td>
+                <td>تأكد من صلاحياتك كمشارك في المجموعة</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-key icon"></i>
+        [62] Create API ID and Hash
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [62] من القائمة الرئيسية لبدء عملية إنشاء مفتاح API وهاش.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيقوم البرنامج بالتواصل مع موقع my.telegram.org للحصول على المعلومات المطلوبة.
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيطلب منك البرنامج إدخال رقم الهاتف الخاص بكل حساب.
+                <div class="prompt">
+                    <i class="fas fa-phone icon"></i>
+                    <div class="english">Enter phone number:</div>
+                    أدخل رقم الهاتف
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بإرسال رمز التحقق إلى رقم الهاتف ثم الحصول على مفتاح API وهاش.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم حفظ المعلومات في ملف "new_api.txt" عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">PHONE_NUMBER_INVALID</td>
+                <td>رقم الهاتف غير صالح</td>
+                <td>تأكد من إدخال رقم الهاتف بالصيغة الصحيحة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">PHONE_NUMBER_OCCUPIED</td>
+                <td>رقم الهاتف مستخدم بالفعل</td>
+                <td>استخدم رقم هاتف آخر أو قم بإنشاء حساب جديد</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-exclamation-triangle icon"></i>
+        [63] Mass Fake Reporting
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [63] من القائمة الرئيسية لبدء عملية الإبلاغ الجماعي الوهمي.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال اسم المستخدم أو الرابط المراد الإبلاغ عنه.
+                <div class="prompt">
+                    <i class="fas fa-link icon"></i>
+                    <div class="english">Enter target username/link to report:</div>
+                    أدخل اسم المستخدم/الرابط المستهدف للإبلاغ عنه
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيطلب منك البرنامج إدخال رسالة الإبلاغ.
+                <div class="prompt">
+                    <i class="fas fa-pen icon"></i>
+                    <div class="english">Enter your report message. You can use {{username}} to insert the target's username</div>
+                    أدخل رسالة الإبلاغ الخاصة بك. يمكنك استخدام {{username}} لإدراج اسم المستخدم المستهدف
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بإرسال الإبلاغ باستخدام البروكسيات المتاحة.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم حفظ نتائج الإبلاغ الناجحة في ملف "success_reports.txt" والإبلاغات الفاشلة في ملف "errors.txt".
+            </li>
+            <li>
+                <span class="step-number">6</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        لا توجد مشاكل محتملة في هذه الخاصية. البرنامج يقوم بالإبلاغ باستخدام البروكسيات بشكل تلقائي.
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-tags icon"></i>
+        [64] Scam Tag
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [64] من القائمة الرئيسية لبدء عملية الإبلاغ عن محتوى وهمي.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رسالة الإبلاغ.
+                <div class="prompt">
+                    <i class="fas fa-pen icon"></i>
+                    <div class="english">Enter Message to Report:</div>
+                    أدخل الرسالة للإبلاغ عنها
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيقوم البرنامج بإرسال الرسالة إلى حساب "@notoscam" باستخدام جميع الحسابات المسجلة.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_WRITE_FORBIDDEN</td>
+                <td>ليس لديك صلاحية إرسال رسائل إلى هذا الحساب</td>
+                <td>تأكد من صلاحياتك كمشرف على الحساب</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-info-circle icon"></i>
+        [65] Account Info Checker
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [65] من القائمة الرئيسية لبدء عملية فحص معلومات الحسابات.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيقوم البرنامج بقراءة جميع ملفات الجلسات الموجودة في مجلد "sessions".
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيقوم البرنامج بالاتصال بكل حساب وعرض معلوماته التفصيلية.
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">SESSION_REVOKED</td>
+                <td>تم إلغاء الجلسة أو الحساب معطل</td>
+                <td>تأكد من صلاحية الحساب قبل المحاولة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">INTERNAL_SERVER_ERROR</td>
+                <td>خطأ داخلي في النظام</td>
+                <td>حاول مرة أخرى بعد فترة أو اتصل بالدعم الفني</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-comments icon"></i>
+        [66] Any one Chatter
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [66] من القائمة الرئيسية لبدء عملية الدردشة التلقائية.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إدخال رسالة مخصصة.
+                <div class="prompt">
+                    <i class="fas fa-keyboard icon"></i>
+                    <div class="english">Enter Your custom Message:</div>
+                    أدخل رسالتك المخصصة
+                </div>
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيطلب منك البرنامج إدخال عدد المرات التي تريد تشغيل السيناريو.
+                <div class="prompt">
+                    <i class="fas fa-sync icon"></i>
+                    <div class="english">How many times you want to run:</div>
+                    كم عدد المرات التي تريد التشغيل
+                </div>
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بإرسال سلسلة من الرسائل النصية المبرمجة مسبقًا إلى حساب "@chatbot" باستخدام جميع الحسابات المسجلة.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بنتائج العملية عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_WRITE_FORBIDDEN</td>
+                <td>ليس لديك صلاحية إرسال رسائل إلى هذا الحساب</td>
+                <td>تأكد من صلاحياتك كمشرف على الحساب</td>
+            </tr>
+            <tr>
+                <td class="error-message english">FLOOD_WAIT_X</td>
+                <td>عدد كبير من المحاولات في وقت قصير</td>
+                <td>انتظر X ثواني قبل المحاولة التالية</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>[67] Web Search
+</h2>
+<div class="steps">
+<h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+<ol>
+<li>
+<span class="step-number">1</span>
+اختر الرقم [67] من القائمة الرئيسية لبدء عملية البحث عبر الإنترنت.
+</li>
+<li>
+<span class="step-number">2</span>
+سيطلب منك البرنامج إدخال الكلمات المفتاحية للبحث في ملف "words.txt".
+</li>
+<li>
+<span class="step-number">3</span>
+سيقوم البرنامج بالبحث عبر محركات البحث المختلفة (Google, Bing, DuckDuckGo) عن مجموعات وقنوات تيليجرام باستخدام الكلمات المفتاحية.
+</li>
+<li>
+<span class="step-number">4</span>
+سيتم حفظ نتائج البحث في ملفات منفصلة للمجموعات والقنوات.
+</li>
+<li>
+<span class="step-number">5</span>
+سيتم عرض ملخص بنتائج البحث عند الانتهاء.
+</li>
+</ol>
+</div>
+<div class="problems">
+<h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+<table>
+<tr>
+<th><i class="fas fa-bug"></i> Error Message</th>
+<th><i class="fas fa-info-circle"></i> السبب</th>
+<th><i class="fas fa-tools"></i> الحل</th>
+</tr>
+<tr>
+<td class="error-message english">NETWORK_ERROR</td>
+<td>حدث خطأ في الاتصال بالإنترنت</td>
+<td>تحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى</td>
+</tr>
+<tr>
+<td class="error-message english">SEARCH_QUALITY_POOR</td>
+<td>لا توجد نتائج كافية للبحث</td>
+<td>حاول باستخدام كلمات مفتاحية مختلفة أو أكثر تحديدًا</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-search icon"></i>
+        [68] Telegram Search
+    </h2>
+    <div class="steps">
+        <h3><i class="fas fa-list-ol icon"></i>خطوات التنفيذ:</h3>
+        <ol>
+            <li>
+                <span class="step-number">1</span>
+                اختر الرقم [68] من القائمة الرئيسية لبدء عملية البحث عبر تيليجرام.
+            </li>
+            <li>
+                <span class="step-number">2</span>
+                سيطلب منك البرنامج إنشاء جلسة تيليثون جديدة إذا لم تكن موجودة.
+            </li>
+            <li>
+                <span class="step-number">3</span>
+                سيطلب منك البرنامج إدخال الكلمات المفتاحية للبحث في ملف "words.txt".
+            </li>
+            <li>
+                <span class="step-number">4</span>
+                سيقوم البرنامج بالبحث عبر تيليجرام باستخدام الكلمات المفتاحية وحفظ نتائج البحث في ملفات منفصلة للمجموعات والقنوات.
+            </li>
+            <li>
+                <span class="step-number">5</span>
+                سيتم عرض ملخص بنتائج البحث عند الانتهاء.
+            </li>
+        </ol>
+    </div>
+    <div class="problems">
+        <h3><i class="fas fa-exclamation-triangle icon"></i>المشاكل المحتملة وحلولها:</h3>
+        <table>
+            <tr>
+                <th><i class="fas fa-bug"></i> Error Message</th>
+                <th><i class="fas fa-info-circle"></i> السبب</th>
+                <th><i class="fas fa-tools"></i> الحل</th>
+            </tr>
+            <tr>
+                <td class="error-message english">CHAT_RESTRICTED</td>
+                <td>لا يمكن الوصول إلى المجموعة أو القناة</td>
+                <td>تأكد من صلاحياتك كعضو في المجموعة أو القناة</td>
+            </tr>
+            <tr>
+                <td class="error-message english">SEARCH_QUALITY_POOR</td>
+                <td>لا توجد نتائج كافية للبحث</td>
+                <td>حاول باستخدام كلمات مفتاحية مختلفة أو أكثر تحديدًا</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="feature-card">
+    <h2 class="feature-title">
+        <i class="fas fa-door-closed icon"></i>
+        [0] Exit
+    </h2>
+    <div class="steps">
+        اختر الرقم [0] من القائمة الرئيسية للخروج من البرنامج.
+    </div>
+</div>
+
+</html>
